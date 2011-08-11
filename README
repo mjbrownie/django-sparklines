@@ -1,0 +1,37 @@
+Django Sparklines
+
+This is a simple template tag abstraction to jquery sparklines. Simple graphs
+useful for basic activity trends.
+
+http://omnipotent.net/jquery.sparkline/
+
+INSTALL
+
+settings.py
+    'sparklines', in INSTALLED_APPS
+
+{% load sparkline_tags %}
+
+Included is three tags
+
+    {% sparklines_script_tag %}
+
+        <script src='..jquery'> tags for the <head>
+
+    {% sparkline list [dict options]%}
+
+        will take a list of integers
+
+    see http://omnipotent.net/jquery.sparkline/#common for options
+
+    {% queryset_sparkline queryset date_field [dict options, date start, date end, int step, str mode] %}
+
+        will take a queryset and model.date_field string and plot frequency of
+        records. A simple example would be plotting auth.User by date_joined.
+
+        By default it will render frequency for the last 52 weeks.
+
+    Example:
+    {% queryset_sparkline users 'date_joined' %} where users is
+    User.objects.all()
+

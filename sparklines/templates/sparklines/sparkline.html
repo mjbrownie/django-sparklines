@@ -1,0 +1,10 @@
+<script type="text/javascript">
+    $(function() {
+    //$(document).ready(function() {
+        /** This code runs when everything has been loaded on the page */
+        /* Inline sparklines take their values from the contents of the tag */
+        var list = [{{sparkline_list|join:","}}];
+        $('#inlinesparkline').sparkline(list, {{options}});
+    });
+</script>
+<span id="inlinesparkline">Loading...</span>

@@ -4,7 +4,7 @@
         /** This code runs when everything has been loaded on the page */
         /* Inline sparklines take their values from the contents of the tag */
         var list = [{{sparkline_list|join:","}}];
-        $('#inlinesparkline').sparkline(list, {{options}});
+        $('#inlinesparkline_{{sparkline_type}}_{{counter}}').sparkline(list, {{options}});
     });
 </script>
-<span id="inlinesparkline">Loading...</span>
+<span id="inlinesparkline_{{sparkline_type}}_{{counter}}">Loading...</span>

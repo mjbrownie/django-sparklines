@@ -1,3 +1,6 @@
+import datetime
+from dateutil.relativedelta import relativedelta
+
 from django import template
 from django.utils import simplejson
 from django.utils.safestring import mark_safe
@@ -14,6 +17,11 @@ except:
     STATIC_URL = settings.MEDIA_URL
 
 def _queryset_sparkline(queryset,date_field,options={},*args,**kwargs):
+
+    if 'title' in kwargs:
+        title = kwargs['title']
+        del kwargs['title']
+
     _queryset_sparkline.counter += 1
     sparkline_type = 'queryset'
     counter = _queryset_sparkline.counter
@@ -50,3 +58,23 @@ sparkline.counter = 0
 @register.inclusion_tag('sparklines/sparklines_script_tag.html')
 def sparklines_script_tag():
     return {'STATIC_URL':STATIC_URL}
+
+@register.inclusion_tag('sparklines/sparkline.html')
+def month_query_sparkline(queryset,date_field, title, color):
+    options={'type':'bar','barColor':color}
+    start = datetime.datetime.now().date() - datetime.timedelta(days=30)
+    end = datetime.datetime.now().date()
+    step = 1
+    mode = 'days'
+    return _queryset_sparkline(queryset,date_field, options, start,
+            end, step, mode, title=title)
+
+@register.inclusion_tag('sparklines/sparkline.html')
+def six_month_query_sparkline(queryset,date_field, title, color):
+    options={'type':'bar','barColor':color}
+    start = datetime.datetime.now().date() - relativedelta(months=6)
+    end = datetime.datetime.now().date()
+    step = 1
+    mode = 'months'
+    return _queryset_sparkline(queryset,date_field, options, start,
+            end, step, mode, title=title)

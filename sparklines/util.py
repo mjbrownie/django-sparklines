@@ -16,23 +16,13 @@ def get_object_date_period(queryset, date_field, start = None,end = None,
     date_field = str(date_field)
 
     while d <= end:
-        if step == 1 and mode == 'days':
-            period.append(
-                    (d,
-                       queryset.filter(**{
-                           date_field : d
-                           })
-                        )
-                    )
-
-        else:
-            period.append(
-                    (d,
-                        queryset.filter(**{
-                            date_field + '__gte' :d,
-                            date_field + '__lte' :d + delta
-                            })
-                    ))
+        period.append(
+                (d,
+                    queryset.filter(**{
+                        date_field + '__gte' :d,
+                        date_field + '__lte' :d + delta
+                        })
+                ))
 
         d += delta
 

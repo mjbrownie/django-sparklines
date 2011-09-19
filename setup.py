@@ -6,5 +6,9 @@ setup(name='django-sparklines',
         author="Michael Brown",
         author_email="mjbrownie@gmail.com",
         packages=find_packages(),
+        package_data={'':[
+            'templates/sparklines/*',
+            ]},
+        include_package_data = True,
         zip_safe=False,
         )

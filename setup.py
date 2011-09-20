@@ -11,7 +11,7 @@ setup(name='django-sparklines',
         packages=find_packages(),
         package_data={'':[
             'templates/sparklines/*',
-            'static/*'
+            'static/sparklines/*'
             ]},
         include_package_data = True,
         zip_safe=False,

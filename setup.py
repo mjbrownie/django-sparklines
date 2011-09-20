@@ -1,4 +1,7 @@
 from setuptools import setup, find_packages
+with open('README') as file:
+    long_description = file.read()
+
 setup(name='django-sparklines',
         version='0.1',
         description='Simple tag abstraction for jquery sparklines',
@@ -8,7 +11,9 @@ setup(name='django-sparklines',
         packages=find_packages(),
         package_data={'':[
             'templates/sparklines/*',
+            'static/*'
             ]},
         include_package_data = True,
         zip_safe=False,
+        long_description=long_description,
         )

@@ -9,33 +9,58 @@ Screenshot Here
 
 http://www.ascetinteractive.com.au/images/django-sparkline.png
 
-INSTALL
+Install
 
-settings.py
+    pip install django-sparklines
+
+Configuration
+
+1. Add app in settings.py
     'sparklines', in INSTALLED_APPS
 
-{% load sparkline_tags %}
+2. Load the template tag library in your html template
 
-Included is three tags
+    {% load sparkline_tags %}
+
+3. Include Javascript files in <head></head>
 
     {% sparklines_script_tag %}
+    <script src='..jquery'> tags for the <head>
 
-        <script src='..jquery'> tags for the <head>
+    The two jquery files are located in sparklines/static/ . You may also include
+    them manually if you like.
 
-    {% sparkline list [dict options]%}
+4. Create a sparkline in your template <body> with the following template tags.
 
-        will take a list of integers
+    i. Simple sparkline based on a list of integers.
 
-    see http://omnipotent.net/jquery.sparkline/#common for options
+        {% sparkline list [dict options]%}
 
-    {% queryset_sparkline queryset date_field [dict options, date start, date end, int step, str mode] %}
+        This will take a list of integers. eg. [42,13,9,7,3,1]
 
-        will take a queryset and model.date_field string and plot frequency of
+        Optional Fields
+
+            options: see http://omnipotent.net/jquery.sparkline/#common for options
+
+    ii. Queryset sparkline.
+
+        {% queryset_sparkline queryset date_field [dict options, date start, date end, int step, str mode] %}
+
+        This will take a queryset and model.date_field string and plot frequency of
         records. A simple example would be plotting auth.User by date_joined.
 
         By default it will render frequency for the last 52 weeks.
 
-    Example:
-    {% queryset_sparkline users 'date_joined' %} where users is
-    User.objects.all()
+        Example:
 
+        {% queryset_sparkline users 'date_joined' %}
+
+        Users could be User.objects.all()
+
+        Optional Fields
+
+            options: as above
+            start: start period for queryset (for a __gte clause)
+            end: end period for queryset (for a __lte clause)
+            step: default 1. can be 7 for a week 14 for a fortnight etc.
+            mode: dateutil delta modes can be 'days' 'weeks' 'months' 'years'

@@ -31,3 +31,10 @@ def get_object_date_period(queryset, date_field, start = None,end = None,
 
 def get_object_date_count_list(*args,**kwargs):
     return [str( p[1].count() ) for p in get_object_date_period(*args,**kwargs)]
+
+
+def get_object_date_count_dict_list(*args,**kwargs):
+    return [
+            dict(date=p[0].strftime('%Y-%m-%d'),
+            count=str(p[1].count())) for p in get_object_date_period(*args,**kwargs)
+            ]

@@ -6,7 +6,7 @@ default_start = now - relativedelta(years = 1)
 
 # Utility Functions {{{1
 def get_object_date_period(queryset, date_field, start = None,end = None,
-        step = 1, mode='weeks'):
+        step = 1, mode='weeks', aggregate=None):
 
     d = start or default_start
     end = end or now
@@ -16,12 +16,17 @@ def get_object_date_period(queryset, date_field, start = None,end = None,
     date_field = str(date_field)
 
     while d <= end:
+        filterset = queryset.filter(**{
+            date_field + '__gte' :d,
+            date_field + '__lte' :d + delta
+            })
+
+        if aggregate:
+            filterset = filterset.aggregate(*aggregate)
+
         period.append(
                 (d,
-                    queryset.filter(**{
-                        date_field + '__gte' :d,
-                        date_field + '__lte' :d + delta
-                        })
+                    filterset
                 ))
 
         d += delta

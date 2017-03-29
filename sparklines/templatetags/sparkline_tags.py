@@ -2,7 +2,7 @@ import datetime
 from dateutil.relativedelta import relativedelta
 
 from django import template
-from django.utils import simplejson
+import json
 from django.utils.safestring import mark_safe
 
 register = template.Library()
@@ -26,7 +26,7 @@ def _queryset_sparkline(queryset,date_field,options={},*args,**kwargs):
     sparkline_type = 'queryset'
     counter = _queryset_sparkline.counter
     module_name = queryset.model._meta.module_name
-    options = mark_safe( simplejson.dumps(options) )
+    options = mark_safe( json.dumps(options) )
     sparkline_list =  get_object_date_count_list(queryset,
             date_field, *args, **kwargs)
 
@@ -47,7 +47,7 @@ def queryset_sparkline(queryset,date_field,
 
 @register.inclusion_tag('sparklines/sparkline.html')
 def sparkline(sparkline_list,options = {'type':'bar'}):
-    options = mark_safe( simplejson.dumps(options) )
+    options = mark_safe( json.dumps(options) )
     sparkline_type = 'list'
     sparkline.counter += 1
     counter = sparkline.counter
